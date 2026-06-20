@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>.NET → Java Migration Agent | AI-Powered Code Migration</title>
+  <meta name="description" content="AI-powered .NET to Java Spring Boot migration agent. Upload C# files and get production-ready Java code instantly." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Prism.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="bg-mesh"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER / HERO
+════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="container">
+    <div class="logo-row">
+      <div class="logo-icon">🔄</div>
+      <h1 class="hero-title">.NET → Java Migration Agent</h1>
+    </div>
+    <p class="hero-sub">
+      AI-powered migration from <strong style="color:#a78bfa">.NET / C#</strong> to
+      <strong style="color:#67e8f9">Java Spring Boot 3</strong> — preserving every line of business logic.
+    </p>
+    <div class="badge-row">
+      <span class="badge violet">☕ Java 21</span>
+      <span class="badge cyan">🍃 Spring Boot 3</span>
+      <span class="badge green">🤖 Groq LLM</span>
+      <span class="badge violet">📚 RAG-Powered</span>
+      <span class="badge cyan">🧪 JUnit 5 Tests</span>
+      <span class="badge green">📦 Maven ZIP</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════════════════════ -->
+<main>
+<div class="container">
+
+  <!-- ── Row: Upload + Config ───────────────────────────── -->
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+
+    <!-- Input Card -->
+    <div class="card">
+      <div class="card-title">Source Code Input</div>
+
+      <!-- Input Tabs -->
+      <div class="tabs" style="border-radius: var(--radius-sm); margin-bottom: 15px; background: rgba(0,0,0,0.2); border: 1px solid var(--border);">
+        <button class="tab-btn active" data-input-mode="upload" id="tab-mode-upload" style="flex: 1; justify-content: center; padding: 6px 12px; font-size: 0.76rem;">📤 Upload files/folder</button>
+        <button class="tab-btn" data-input-mode="local" id="tab-mode-local" style="flex: 1; justify-content: center; padding: 6px 12px; font-size: 0.76rem;">💻 Local Folder Path</button>
+      </div>
+
+      <!-- Panel: Upload -->
+      <div id="panel-mode-upload">
+        <div id="drop-zone">
+          <div class="drop-icon">📂</div>
+          <div class="drop-title">Drop your .NET files/folders here</div>
+          <div class="drop-sub" style="margin-bottom:12px;">or choose an option below</div>
+          
+          <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px; position:relative; z-index:2;">
+            <button type="button" class="copy-btn" id="browse-files-btn" style="padding: 6px 12px;">File Picker</button>
+            <button type="button" class="copy-btn" id="browse-folder-btn" style="padding: 6px 12px;">Folder Picker</button>
+          </div>
+          
+          <div class="drop-types">
+            <span class="ext-badge">.cs</span>
+            <span class="ext-badge">.csproj</span>
+            <span class="ext-badge">.json</span>
+            <span class="ext-badge">.xml</span>
+            <span class="ext-badge">.config</span>
+          </div>
+          
+          <!-- Hidden inputs -->
+          <input type="file" id="file-input" multiple accept=".cs,.csproj,.json,.xml,.config,.txt,.zip" style="display:none;" />
+          <input type="file" id="folder-input" webkitdirectory directory multiple style="display:none;" />
+        </div>
+        
+        <div id="file-list"></div>
+      </div>
+
+      <!-- Panel: Local Path -->
+      <div id="panel-mode-local" style="display:none;">
+        <div class="form-group" style="margin-top: 10px;">
+          <label class="form-label" for="local-path-input">📂 Paste Folder Path (Backend Local Disk)</label>
+          <input
+            type="text"
+            id="local-path-input"
+            class="form-input"
+            placeholder="e.g. C:\projects\dotnet-app"
+            autocomplete="off"
+          />
+          <div style="margin-top:10px; font-size:0.76rem; color:var(--text-secondary); line-height: 1.5;">
+            💡 When using a local disk path, the agent will scan the files directly and write the generated Java Maven project to <code style="color:#67e8f9">&lt;path&gt;\migrated-java</code> on your system.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Config Card -->
+    <div class="card">
+      <div class="card-title">Agent Configuration</div>
+
+      <div class="config-grid">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label class="form-label" for="api-key">🔑 API Key (Groq / OpenRouter — not needed for Ollama)</label>
+          <input
+            type="password"
+            id="api-key"
+            class="form-input"
+            placeholder="Optional if set in backend/.env — required for Groq & OpenRouter"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="model-select">🤖 LLM Model</label>
+          <select id="model-select" class="form-select">
+            <optgroup label="Ollama (Local - No API key)">
+              <option value="llama3.2">Llama 3.2 (Local)</option>
+              <option value="llama3">Llama 3</option>
+              <option value="codellama">CodeLlama</option>
+              <option value="qwen2.5-coder">Qwen 2.5 Coder</option>
+            </optgroup>
+            <optgroup label="Groq (Cloud API key required)">
+              <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+              <option value="llama-3.1-8b-instant">Llama 3.1 8B (higher TPM)</option>
+            </optgroup>
+            <optgroup label="OpenRouter (Free — API key from .env or enter below)">
+              <option value="qwen/qwen3-coder:free" selected>Qwen3 Coder (Free) — best for code</option>
+              <option value="openrouter/free">Auto Free Router (fallback)</option>
+              <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B (Free)</option>
+              <option value="openai/gpt-oss-120b:free">GPT-OSS 120B (Free)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">📊 RAG Engine</label>
+          <div class="form-input" style="display:flex;align-items:center;gap:8px;cursor:default;">
+            <span style="color:var(--accent-green)">●</span>
+            <span style="color:var(--text-secondary); font-size:0.82rem;">35+ Migration Patterns</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div style="margin-top:18px; padding:12px 14px; background:rgba(6,182,212,0.07); border:1px solid rgba(6,182,212,0.2); border-radius:var(--radius-sm);">
+        <div style="font-size:0.75rem; color:#67e8f9; font-weight:600; margin-bottom:6px;">💡 How it works</div>
+        <div style="font-size:0.76rem; color:var(--text-secondary); line-height:1.7;">
+          1. Upload your <code style="color:#a78bfa">.cs</code> / <code style="color:#a78bfa">.csproj</code> files<br/>
+          2. The agent analyzes frameworks &amp; detects patterns<br/>
+          3. RAG retrieves relevant migration mappings<br/>
+            4. Groq LLM generates idiomatic Spring Boot code<br/>
+          5. Download the complete Maven project ZIP
+        </div>
+      </div>
+
+      <button id="migrate-btn" type="button">
+        <div class="btn-content">
+          <div class="spinner" id="btn-spinner"></div>
+          <span id="btn-text">⚡ Migrate to Java Spring Boot</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Progress + Terminal ────────────────────────────── -->
+  <div id="progress-section" class="card section">
+    <div class="card-title">Migration Progress</div>
+
+    <div class="progress-header">
+      <span class="progress-label" id="progress-label">Initializing...</span>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <div class="card-title">Live Agent Terminal</div>
+      <div class="terminal" id="terminal"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       RESULTS SECTION
+  ════════════════════════════════════════════════════ -->
+  <div id="results-section">
+
+    <!-- Success Banner -->
+    <div class="success-banner">
+      <div class="icon">🎉</div>
+      <div class="text">
+        <strong>Migration Complete!</strong>
+        <span id="banner-detail">Files generated and ready for download</span>
+      </div>
+    </div>
+
+    <!-- Header Row -->
+    <div class="results-header">
+      <div class="results-title">
+        ✅ Generated Output
+      </div>
+      <button id="download-btn" class="download-btn" disabled>
+        📦 Download Maven ZIP
+      </button>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-java">—</div>
+        <div class="stat-label">Java Files</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-tests">—</div>
+        <div class="stat-label">Test Files</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-version" style="font-size:1.1rem;">—</div>
+        <div class="stat-label">.NET Version</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-fw">—</div>
+        <div class="stat-label">Frameworks</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="analysis" id="tab-analysis">🔍 Analysis</button>
+      <button class="tab-btn" data-tab="java" id="tab-java">☕ Java Code</button>
+      <button class="tab-btn" data-tab="tests" id="tab-tests">🧪 Tests</button>
+      <button class="tab-btn" data-tab="config" id="tab-config">⚙️ Config</button>
+      <button class="tab-btn" data-tab="notes" id="tab-notes">📋 Notes</button>
+    </div>
+
+    <div class="tab-content">
+
+      <!-- ── Analysis Panel ─────────────────────────── -->
+      <div class="tab-panel active" id="panel-analysis">
+        <div class="analysis-grid">
+          <div class="analysis-block">
+            <h4>🏗️ Detected .NET Version</h4>
+            <div class="tag-list">
+              <span class="tag" id="analysis-version">—</span>
+            </div>
+
+            <h4 style="margin-top:20px;">📦 Frameworks Detected</h4>
+            <div class="tag-list" id="analysis-frameworks"></div>
+
+            <h4 style="margin-top:20px;">📚 NuGet Dependencies</h4>
+            <div class="tag-list" id="analysis-deps"></div>
+          </div>
+
+          <div class="analysis-block">
+            <h4>🔄 Migration Considerations</h4>
+            <div class="consideration-list" id="analysis-considerations"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Java Code Panel ────────────────────────── -->
+      <div class="tab-panel" id="panel-java">
+        <div class="file-selector" id="java-file-selector"></div>
+        <div id="java-files-container">
+          <div class="empty-state">
+            <div class="icon">☕</div>
+            <p>Java files will appear here after migration</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Tests Panel ────────────────────────────── -->
+      <div class="tab-panel" id="panel-tests">
+        <div class="file-selector" id="test-file-selector"></div>
+        <div id="test-files-container">
+          <div class="empty-state">
+            <div class="icon">🧪</div>
+            <p>JUnit 5 test files will appear here after migration</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Config Panel ───────────────────────────── -->
+      <div class="tab-panel" id="panel-config">
+        <div style="display:grid; gap:20px;">
+          <div>
+            <div class="card-title">pom.xml — Maven Project Descriptor</div>
+            <div id="pom-container"></div>
+          </div>
+          <div>
+            <div class="card-title">application.yml — Spring Boot Config</div>
+            <div id="yml-container"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Notes Panel ────────────────────────────── -->
+      <div class="tab-panel" id="panel-notes">
+        <div class="notes-section">
+          <h4>💡 Key Migration Decisions</h4>
+          <div id="notes-decisions"></div>
+        </div>
+        <div class="notes-section">
+          <h4>⚠️ Potential Risks</h4>
+          <div id="notes-risks"></div>
+        </div>
+      </div>
+
+    </div><!-- end tab-content -->
+
+  </div><!-- end results-section -->
+
+</div><!-- end container -->
+</main>
+
+<!-- ── Footer ─────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <p>
+      🔄 <strong>.NET → Java Migration Agent</strong> &nbsp;·&nbsp;
+      Powered by <span style="color:#a78bfa">Groq LLM</span> + <span style="color:#67e8f9">RAG Engine</span> &nbsp;·&nbsp;
+      Java 21 · Spring Boot 3 · Lombok · MapStruct · JUnit 5
+    </p>
+  </div>
+</footer>
+
+<!-- Prism.js syntax highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-xml-doc.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+
+<!-- App JS -->
+<script src="/app.js"></script>
+
+<!-- Responsive grid fix -->
+<style>
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
+
+</body>
+</html>
